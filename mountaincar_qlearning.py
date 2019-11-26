@@ -81,10 +81,6 @@ def q_learning(env, learning_rate, discount, epsilon, min_eps, episodes, discret
         if epsilon > min_eps:
             epsilon -= reduction
 
-        # Track rewards
-        reward_list.append(tot_reward)
-
-
         #PRINTS AND PLOTS--------------
         if (episode+1) % 50 == 0:
             iterations_list.append(iters)
