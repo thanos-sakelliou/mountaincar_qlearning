@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-def discritize(state, discretize_size):
+def discretize(state, discretize_size):
 
     # making state-space discrete
     disc_state = (state - env.observation_space.low) * np.array([1, 10])*discretize_size
@@ -15,7 +15,7 @@ def discritize(state, discretize_size):
 
 def q_learning(env, learning_rate, discount, epsilon, min_eps, episodes, discretize_size):
 
-    statespace_size = discritize(env.observation_space.high, discretize_size) + 1
+    statespace_size = discretize(env.observation_space.high, discretize_size) + 1
     Q = np.random.uniform(
         low=-1, high=1, size=(statespace_size[0], statespace_size[1], env.action_space.n))
 
@@ -35,7 +35,7 @@ def q_learning(env, learning_rate, discount, epsilon, min_eps, episodes, discret
         state = env.reset()
 
         # Discretize state
-        state = discritize(state, discretize_size)
+        state = discretize(state, discretize_size)
 
         path = [state]
 
@@ -56,7 +56,7 @@ def q_learning(env, learning_rate, discount, epsilon, min_eps, episodes, discret
             state2, reward, done, info = env.step(action)
 
             # Discretize state2
-            state2 = discritize(state2, discretize_size)
+            state2 = discretize(state2, discretize_size)
 
             #keep the path
             path.append(state2.tolist())
@@ -131,7 +131,7 @@ gym.envs.register(
 env = gym.make('MountainCarMyEasyVersion-v0')
 
 
-iterations_list = q_learning(env, 0.4, 0.9, 0.8, 0, 4000, 100)
+iterations_list = q_learning(env, 0.4, 0.9, 0.8, 0, 400, 100)
 
 
 # Plot Rewards
@@ -139,5 +139,5 @@ plt.plot(100*(np.arange(len(iterations_list)) + 1), iterations_list)
 plt.xlabel('Episodes')
 plt.ylabel('Iterations to goal')
 plt.title('Iterations to goal vs Episodes')
-# plt.savefig('rewards.jpg')
+plt.savefig('iterations.jpg')
 plt.show()
