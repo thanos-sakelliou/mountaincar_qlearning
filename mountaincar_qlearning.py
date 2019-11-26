@@ -13,7 +13,7 @@ def discretize(state, discretize_size):
     return disc_state
 
 
-def q_learning(env, learning_rate, discount, epsilon, min_eps, episodes, discretize_size):
+def q_learning(env, learning_rate, discount_factor, epsilon, min_eps, episodes, discretize_size):
 
     statespace_size = discretize(env.observation_space.high, discretize_size) + 1
     Q = np.random.uniform(
@@ -69,7 +69,7 @@ def q_learning(env, learning_rate, discount, epsilon, min_eps, episodes, discret
             else:
                 # print(state,state2)
                 delta = learning_rate * \
-                    (reward + discount *
+                    (reward + discount_factor *
                      np.max(Q[state2[0], state2[1]]) - Q[state[0], state[1], action])
                 Q[state[0], state[1], action] += delta
 
@@ -82,10 +82,12 @@ def q_learning(env, learning_rate, discount, epsilon, min_eps, episodes, discret
             epsilon -= reduction
 
         #PRINTS AND PLOTS--------------
-        if (episode+1) % 100 == 0:
+        if (episode+1) % 50 == 0:
             iterations_list.append(iters)
 
-            print("episode :", episode, "- iterations to goal: ", iters)
+            print("episode :", episode+1, "- iterations to goal: ", iters)
+
+        if (episode+1) % 250 == 0:
 
             #making the path of the car
             path_matrix = np.zeros(statespace_size)
@@ -103,15 +105,15 @@ def q_learning(env, learning_rate, discount, epsilon, min_eps, episodes, discret
           
             ax1.invert_yaxis()
             ax1.set(xlabel='Car Velocity', ylabel='Car Position')
-            ax1.set_title('Max Q value of states')
+            ax1.set_title('Min Q value of states')
             ax2.set(xlabel='Car Velocity')
             ax2.set_title('Car state path')
             ax2.invert_yaxis()
             
-            plot1.figure.savefig("output"+ str(episode) +".png")
+            # plot1.figure.savefig("output"+ str(episode) +".png")
 
-            # plt.draw()
-            # plt.pause(0.001)
+            plt.draw()
+            plt.pause(0.001)
             plt.clf()
 
 
@@ -131,7 +133,7 @@ gym.envs.register(
 env = gym.make('MountainCarMyEasyVersion-v0')
 
 
-iterations_list = q_learning(env, 0.4, 0.9, 0.8, 0, 4000, 100)
+iterations_list = q_learning(env, 0.4, 0.9, 0.8, 0, 1000, 100)
 
 
 # Plot Rewards
@@ -139,5 +141,5 @@ plt.plot(100*(np.arange(len(iterations_list)) + 1), iterations_list)
 plt.xlabel('Episodes')
 plt.ylabel('Iterations to goal')
 plt.title('Iterations to goal vs Episodes')
-plt.savefig('iterations.png')
+# plt.savefig('iterations.png')
 plt.show()
