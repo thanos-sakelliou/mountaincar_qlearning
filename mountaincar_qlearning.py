@@ -43,7 +43,7 @@ def q_learning(env, learning_rate, discount, epsilon, min_eps, episodes, discret
         while done != True:
             iters += 1
             # Render environment for last five episodes
-            if episode >= (episodes - 50):
+            if episode >= (episodes - 5):
                 env.render()
 
             # Determine next action - epsilon greedy strategy
@@ -82,7 +82,7 @@ def q_learning(env, learning_rate, discount, epsilon, min_eps, episodes, discret
             epsilon -= reduction
 
         #PRINTS AND PLOTS--------------
-        if (episode+1) % 50 == 0:
+        if (episode+1) % 100 == 0:
             iterations_list.append(iters)
 
             print("episode :", episode, "- iterations to goal: ", iters)
@@ -131,7 +131,7 @@ gym.envs.register(
 env = gym.make('MountainCarMyEasyVersion-v0')
 
 
-iterations_list = q_learning(env, 0.4, 0.9, 0.8, 0, 400, 100)
+iterations_list = q_learning(env, 0.4, 0.9, 0.8, 0, 4000, 100)
 
 
 # Plot Rewards
@@ -139,5 +139,5 @@ plt.plot(100*(np.arange(len(iterations_list)) + 1), iterations_list)
 plt.xlabel('Episodes')
 plt.ylabel('Iterations to goal')
 plt.title('Iterations to goal vs Episodes')
-plt.savefig('iterations.jpg')
+plt.savefig('iterations.png')
 plt.show()
