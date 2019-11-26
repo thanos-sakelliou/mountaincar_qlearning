@@ -110,8 +110,8 @@ def q_learning(env, learning_rate, discount, epsilon, min_eps, episodes, discret
             
             plot1.figure.savefig("output"+ str(episode) +".png")
 
-            plt.draw()
-            plt.pause(0.001)
+            # plt.draw()
+            # plt.pause(0.001)
             plt.clf()
 
 
