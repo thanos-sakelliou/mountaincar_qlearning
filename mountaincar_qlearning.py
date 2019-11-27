@@ -87,7 +87,7 @@ def q_learning(env, learning_rate, discount_factor, epsilon, min_eps, episodes, 
 
             print("episode :", episode+1, "- iterations to goal: ", iters)
 
-        if (episode+1) % 250 == 0:
+        if (episode) % 500 == 0:
 
             #making the path of the car
             path_matrix = np.zeros(statespace_size)
@@ -110,7 +110,7 @@ def q_learning(env, learning_rate, discount_factor, epsilon, min_eps, episodes, 
             ax2.set_title('Car state path')
             ax2.invert_yaxis()
             
-            # plot1.figure.savefig("output"+ str(episode) +".png")
+            plot1.figure.savefig("output"+ str(episode) +".png")
 
             plt.draw()
             plt.pause(0.001)
@@ -141,5 +141,5 @@ plt.plot(100*(np.arange(len(iterations_list)) + 1), iterations_list)
 plt.xlabel('Episodes')
 plt.ylabel('Iterations to goal')
 plt.title('Iterations to goal vs Episodes')
-# plt.savefig('iterations.png')
+plt.savefig('iterations.png')
 plt.show()
